@@ -38,7 +38,87 @@ x 	2 2
  */
  
  
+// 回溯法：
 #include<iostream>
+#include<algorithm>
+using namespace std;
+
+int n, cnt;
+int a[10];
+int b[6];
+bool check(int x) {
+	for (int i = 0; i < n; i++) {
+		if (x == a[i])
+			return true;
+	}
+	return false;
+}
+
+bool checkNum3(int x) {
+	if (x > 999)
+		return false;
+	while (x) {
+		if (!check(x % 10))
+			return false;
+		x /= 10;
+	}
+	return true;
+}
+
+bool checkNum4(int x) {
+	if (x > 9999)
+		return false;
+	while (x) {
+		if (!check(x % 10))
+			return false;
+		x /= 10;
+	}
+	return true;
+}
+bool legal(int k) {
+	if (k == 1 || k == 2 || k == 3)
+		return true;
+	if (k == 4) {
+		int num = b[1] + b[2] * 10 + b[3] * 100;
+		num *= b[4];
+		if (checkNum3(num))
+			return true;
+	}
+	if (k == 5) {
+		int num = b[1] + b[2] * 10 + b[3] * 100;
+		if (checkNum3(num*b[5]))
+			if (checkNum4(num*(b[4] + b[5] * 10)))
+				return true;
+	}
+	return false;
+}
+void dfs(int k) {
+	if (k > 5) {
+		cnt++;
+		return;
+	}
+	for (int i = 0; i < n; i++) {
+		b[k] = a[i];
+		if (legal(k))
+			dfs(k + 1);
+	}
+}
+int main() {
+	int t;
+	cin >> t;
+	while (t--) {
+		cin >> n;
+		cnt = 0;
+		for (int i = 0; i < n; i++)
+			cin >> a[i];
+		dfs(1);
+		cout << cnt << endl;
+	}
+	return 0;
+}
+
+//枚举！！
+/* #include<iostream>
 #include<algorithm>
 using namespace std;
 
@@ -90,4 +170,4 @@ int main() {
 	} 
 	
 	return 0;
-} 
+}  */
