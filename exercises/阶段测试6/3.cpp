@@ -78,3 +78,73 @@ Sample Output
 0 2
 2 3
 0 4 */
+/* #include <iostream>
+#include <fstream>
+#include <string>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <algorithm>
+#include <cmath>
+
+using namespace std;
+
+int bisquars[251*251*2+5]={0};
+struct node{
+	int a;
+	int b;
+}result[10005];
+
+void ini(int m){
+	int i, j;
+	for(i=0; i<=m; i++)
+		for(j=0; j<=m; j++)
+			bisquars[i*i + j*j] = 1;
+}
+
+int cmp(node n1, node n2){
+	if(n1.b != n2.b)
+		return n1.b<n2.b;
+	return n1.a < n2.a;
+}
+
+int main(){	
+    int n, m, a, b, n_i, ap, count=0;	 
+    int t;
+    cin>>t;    
+    while(t--){		
+		cin>>n>>m;
+		if(n>=23){
+	    	cout<< "NONE"<<endl;
+			continue;
+		}
+		memset(bisquars, 0, sizeof(bisquars));
+	    ini(m);			//每一个m求bisquars，
+	    count = 0;
+		for(a=0; a<=2*m*m-n; a++){
+			if(!bisquars[a])
+				continue;
+	    	for(b=1; b<=(2*m*m-a)/(n-1); b++){    	
+	    		for(n_i=1; n_i<n; n_i++){
+	    			ap = a + b*n_i;
+	    			if(!bisquars[ap])
+	    				break;
+	    		}
+	    		if(n_i==n){
+	    			result[count].a = a;
+	    			result[count].b = b;
+	    			count++;
+	    		}    			
+	    	}
+	    }
+	    sort(result, result+count, cmp);	    
+	    if(count==0)
+	    	cout<< "NONE"<<endl;	    	
+	    else{
+	    	for(int i=0; i<count; i++)
+	    		cout<<result[i].a<<' '<<result[i].b<<endl;				
+	    }	    
+	}    
+	return 0;
+} */
+
